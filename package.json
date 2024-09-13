@@ -1,0 +1,22 @@
+{
+  "name": "com.bridge.aliapi",
+  "displayName": "ThirdSDK AliPay",
+  "version": "1.0.2",
+  "description": "AliPay Open Platform Mobile Application SDK Adaptation Package.",
+  "unity": "2022.3",
+  "author": {
+    "name": "Bridge",
+    "url": "https://github.com/Secretszz"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Secretszz/ThirdSDK_AliApi.git"
+  },
+  "dependencies":{
+    "com.unity.nuget.newtonsoft-json": "3.2.1",
+    "com.bridge.common": "1.0.2"
+  },
+  "publishConfig": {
+    "registry": "https://package.openupm.com"
+  }
+}
