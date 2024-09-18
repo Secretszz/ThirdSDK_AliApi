@@ -39,7 +39,8 @@ namespace Bridge.AliApi
 		/// <summary>
 		/// 登录
 		/// </summary>
-		/// <param name="listener">验证回调</param>
-		void AliPayAuth(IBridgeListener listener);
+		/// <param name="authInfo">认证信息</param>
+		/// <param name="listener">认证回调</param>
+		void AliPayAuth(string authInfo, IBridgeListener listener);
 	}
 }
