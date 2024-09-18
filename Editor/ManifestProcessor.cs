@@ -25,7 +25,7 @@ namespace Bridge.AliApi
 		public static void OnPostprocessBuild(BuildTarget target, string projectPath)
 		{
 			CopyNativeCode(projectPath);
-			Common.ManifestProcessor.ReplaceBuildDefinedCache[Common.ManifestProcessor.ALI_DEPENDENCIES] = "api 'com.alipay.sdk:alipaysdk-android:+@aar'";
+			Common.ManifestProcessor.ReplaceBuildDefinedCache[Common.ManifestProcessor.ALI_DEPENDENCIES] = "api 'com.alipay.sdk:alipaysdk-android:15.8.17'";
 		}
         
 		private static void CopyNativeCode(string projectPath)
