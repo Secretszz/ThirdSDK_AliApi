@@ -11,6 +11,13 @@ import java.util.Map;
 
 public class AliApiManager {
     private static final String TAG = AliApiManager.class.getName();
+    public static AliApiManager getInstance(){
+        return Holder.INSTANCE;
+    }
+
+    public void initAliApiManager(Activity activity){
+
+    }
 
     /**
      * 拉起支付宝支付
@@ -18,12 +25,18 @@ public class AliApiManager {
      * @param orderInfo 订单信息
      * @param payListener 支付回调
      */
-    public static void startAliPay(Activity activity, String orderInfo, IBridgeListener payListener){
+    public void startAliPay(Activity activity, String orderInfo, IBridgeListener payListener){
         Thread payThread = new Thread(new PayRunnable(activity, orderInfo, payListener));
         payThread.start();
     }
 
-    public static void startAliAuth(Activity activity, String authInfo, IBridgeListener authListener){
+    /**
+     * 拉起支付宝认证
+     * @param activity 主程序
+     * @param authInfo 认证信息
+     * @param authListener 认证回调
+     */
+    public void startAliAuth(Activity activity, String authInfo, IBridgeListener authListener){
         Thread authThread = new Thread(new AuthRunnable(activity, authInfo, authListener));
         authThread.start();
     }
@@ -115,5 +128,9 @@ public class AliApiManager {
             AuthResult authResult = new AuthResult(rawResult, true);
             String resultStatus = authResult.getResultStatus();
         }
+    }
+
+    private static class Holder{
+        private final static AliApiManager INSTANCE = new AliApiManager();
     }
 }

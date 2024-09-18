@@ -53,16 +53,17 @@ namespace Bridge.AliApi
 		/// <param name="listener">支付回调</param>
 		void IBridge.OpenPay(string orderInfo, IBridgeListener listener)
 		{
-			api?.Call("startAliPay", orderInfo, new BridgeCallback(listener));
+			api?.Call("startAliPay", currentActivity, orderInfo, new BridgeCallback(listener));
 		}
 
 		/// <summary>
 		/// 登录
 		/// </summary>
-		/// <param name="listener">验证回调</param>
-		void IBridge.AliPayAuth(IBridgeListener listener)
+		/// <param name="authInfo">认证信息</param>
+		/// <param name="listener">认证回调</param>
+		void IBridge.AliPayAuth(string authInfo, IBridgeListener listener)
 		{
-			api?.Call("startAliAuth", new BridgeCallback(listener));
+			api?.Call("startAliAuth", currentActivity, authInfo, new BridgeCallback(listener));
 		}
 	}
 }

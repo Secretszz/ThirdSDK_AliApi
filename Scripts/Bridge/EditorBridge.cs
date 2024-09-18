@@ -35,7 +35,7 @@ namespace Bridge.AliApi
 			listener?.OnSuccess("");
 		}
 
-		void IBridge.AliPayAuth(IBridgeListener listener)
+		void IBridge.AliPayAuth(string authInfo, IBridgeListener listener)
 		{
 			listener?.OnCancel();
 		}

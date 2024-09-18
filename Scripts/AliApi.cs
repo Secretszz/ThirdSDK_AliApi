@@ -71,10 +71,11 @@ namespace Bridge.AliApi
 		/// <summary>
 		/// 登录
 		/// </summary>
-		/// <param name="listener">拉起分享窗口事件</param>
-		public static void AliPayAuth(IBridgeListener listener)
+		/// <param name="authInfo">认证信息</param>
+		/// <param name="listener">认证回调</param>
+		public static void AliPayAuth(string authInfo, IBridgeListener listener)
 		{
-			bridgeImpl.AliPayAuth(listener);
+			bridgeImpl.AliPayAuth(authInfo, listener);
 		}
 	}
 }
