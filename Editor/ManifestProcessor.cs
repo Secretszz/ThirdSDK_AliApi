@@ -8,6 +8,7 @@
 // Create Time:		2024/09/11 19:46:27
 // *******************************************
 
+#if UNITY_ANDROID
 namespace Bridge.AliApi
 {
 	using UnityEngine;
@@ -45,3 +46,4 @@ namespace Bridge.AliApi
 		}
 	}
 }
+#endif

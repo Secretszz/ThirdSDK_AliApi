@@ -12,8 +12,6 @@
 namespace Bridge.AliApi
 {
 	using Common;
-	using System;
-	using UnityEngine;
 	using System.Runtime.InteropServices;
 	using AOT;
 
@@ -27,26 +25,16 @@ namespace Bridge.AliApi
 		/// </summary>
 		void IBridge.InitBridge()
 		{
-			wx_init();
+			ali_init();
 		}
 
 		/// <summary>
 		/// 是否安装了微信客户端
 		/// </summary>
 		/// <returns></returns>
-		bool IBridge.IsWXAppInstalled()
+		bool IBridge.IsAliPayAppInstalled()
 		{
-			return wx_isWXAppInstalled();
-		}
-
-		/// <summary>
-		/// 拉起微信客服
-		/// </summary>
-		/// <param name="groupId">企业ID</param>
-		/// <param name="kfid">客服ID</param>
-		bool IBridge.OpenCustomerServiceChat(string groupId, string kfid)
-		{
-			return wx_openCustomerServiceChat(groupId, kfid);
+			return ali_isAliPayAppInstalled();
 		}
 
 		/// <summary>
@@ -57,97 +45,32 @@ namespace Bridge.AliApi
 		void IBridge.OpenPay(string orderInfo, IBridgeListener listener)
 		{
 			PayCallback._payListener = listener;
-			wx_Purchase(orderInfo, PayCallback.OnSuccess, PayCallback.OnCancel, PayCallback.OnError);
-		}
-
-		/// <summary>
-		/// 分享图片到微信
-		/// </summary>
-		/// <param name="imagePath">图片路径</param>
-		/// <param name="scene">分享场景</param>
-		/// <param name="listener">分享回调</param>
-		void IBridge.ShareImage(string imagePath, int scene, IBridgeListener listener)
-		{
-			ShareCallback._shareListener = listener;
-			wx_shareImage(imagePath, scene, ShareCallback.OnSuccess, ShareCallback.OnCancel, ShareCallback.OnError);
-		}
-
-		/// <summary>
-		/// 分享图片到微信
-		/// </summary>
-		/// <param name="imageData">图片数据</param>
-		/// <param name="scene">分享场景</param>
-		/// <param name="listener">分享回调</param>
-		void IBridge.ShareImage(byte[] imageData, int scene, IBridgeListener listener)
-		{
-			try
-			{
-				ShareCallback._shareListener = listener;
-				int length = imageData.Length;
-				IntPtr buffer = Marshal.AllocHGlobal(length);
-				Marshal.Copy(imageData, 0, buffer, length);
-				wx_shareImageWithDatas(buffer, length, scene, ShareCallback.OnSuccess, ShareCallback.OnCancel, ShareCallback.OnError);
-			}
-			catch (Exception e)
-			{
-				Debug.LogError("字节流转指针解析错误：" + e.Message);
-				listener?.OnError(-1, e.Message);
-			}
-		}
-				
-		/// <summary>
-		/// 分享链接
-		/// </summary>
-		/// <param name="linkUrl">链接地址</param>
-		/// <param name="scene">分享场景</param>
-		/// <param name="listener">拉起分享窗口事件</param>
-		void IBridge.ShareLink(string linkUrl, int scene, IBridgeListener listener)
-		{
-			listener?.OnError(-1, "not support");
-		}
-
-		/// <summary>
-		/// 分享视频
-		/// </summary>
-		/// <param name="videoUrl">视频地址</param>
-		/// <param name="scene">分享场景</param>
-		/// <param name="listener">拉起分享窗口事件</param>
-		void IBridge.ShareVideo(string videoUrl, int scene, IBridgeListener listener)
-		{
-			listener?.OnError(-1, "not support");
+			ali_Purchase(orderInfo, PayCallback.OnSuccess, PayCallback.OnCancel, PayCallback.OnError);
 		}
 
 		/// <summary>
 		/// 登录
 		/// </summary>
-		/// <param name="listener">验证回调</param>
-		void IBridge.WeChatAuth(IBridgeListener listener)
+		/// <param name="authInfo">认证信息</param>
+		/// <param name="listener">认证回调</param>
+		void IBridge.AliPayAuth(string authInfo, IBridgeListener listener)
 		{
 			AuthCallback._authListener = listener;
-			wx_Auth(AuthCallback.OnSuccess, AuthCallback.OnCancel, AuthCallback.OnError);
+			ali_Auth(authInfo, AuthCallback.OnSuccess, AuthCallback.OnCancel, AuthCallback.OnError);
 		}
 
 		/// <summary>
 		/// 初始化
 		/// </summary>
 		[DllImport("__Internal")]
-		private static extern void wx_init();
-
-		/// <summary>
-		/// 打开客服界面
-		/// </summary>
-		/// <param name="groupId"></param>
-		/// <param name="kfid"></param>
-		/// <returns></returns>
-		[DllImport("__Internal")]
-		private static extern bool wx_openCustomerServiceChat(string groupId, string kfid);
+		private static extern void ali_init();
 
 		/// <summary>
 		/// 是否下载了微信客户端
 		/// </summary>
 		/// <returns></returns>
 		[DllImport("__Internal")]
-		private static extern bool wx_isWXAppInstalled();
+		private static extern bool ali_isAliPayAppInstalled();
 
 		/// <summary>
 		/// 支付
@@ -157,39 +80,17 @@ namespace Bridge.AliApi
 		/// <param name="onCancel">取消回调</param>
 		/// <param name="onError">错误回调</param>
 		[DllImport("__Internal")]
-		private static extern void wx_Purchase(string orderInfo, U3DBridgeCallback_Success onSuccess, U3DBridgeCallback_Cancel onCancel, U3DBridgeCallback_Error onError);
-
-		/// <summary>
-		/// 分享图片
-		/// </summary>
-		/// <param name="path">图片本地路径</param>
-		/// <param name="scene">分享场景</param>
-		/// <param name="onSuccess">成功回调</param>
-		/// <param name="onCancel">取消回调</param>
-		/// <param name="onError">错误回调</param>
-		[DllImport("__Internal")]
-		private static extern void wx_shareImage(string path, int scene, U3DBridgeCallback_Success onSuccess, U3DBridgeCallback_Cancel onCancel, U3DBridgeCallback_Error onError);
-
-		/// <summary>
-		/// 分享图片
-		/// </summary>
-		/// <param name="datas">图片数据字节流指针</param>
-		/// <param name="length">图片数据长度</param>
-		/// <param name="scene">分享场景</param>
-		/// <param name="onSuccess">成功回调</param>
-		/// <param name="onCancel">取消回调</param>
-		/// <param name="onError">错误回调</param>
-		[DllImport("__Internal")]
-		private static extern void wx_shareImageWithDatas(IntPtr datas, int length, int scene, U3DBridgeCallback_Success onSuccess, U3DBridgeCallback_Cancel onCancel, U3DBridgeCallback_Error onError);
+		private static extern void ali_Purchase(string orderInfo, U3DBridgeCallback_Success onSuccess, U3DBridgeCallback_Cancel onCancel, U3DBridgeCallback_Error onError);
 
 		/// <summary>
 		/// 请求权限
 		/// </summary>
+		/// <param name="authInfo">认证信息</param>
 		/// <param name="onSuccess">成功回调</param>
 		/// <param name="onCancel">取消回调</param>
 		/// <param name="onError">错误回调</param>
 		[DllImport("__Internal")]
-		private static extern void wx_Auth(U3DBridgeCallback_Success onSuccess, U3DBridgeCallback_Cancel onCancel, U3DBridgeCallback_Error onError);
+		private static extern void ali_Auth(string authInfo, U3DBridgeCallback_Success onSuccess, U3DBridgeCallback_Cancel onCancel, U3DBridgeCallback_Error onError);
 
 		private static class PayCallback
 		{
