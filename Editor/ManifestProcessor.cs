@@ -31,7 +31,7 @@ namespace Bridge.AliApi
         
 		private static void CopyNativeCode(string projectPath)
 		{
-			var sourcePath = ThirdSDKPackageManager.GetUnityPackagePath(ThirdSDKPackageManager.AliApiVersion);
+			var sourcePath = ThirdSDKPackageManager.GetUnityPackagePath(PackageType.AliPay);
 			if (string.IsNullOrEmpty(sourcePath))
 			{
 				// 这个不是通过ump下载的包，查找工程内部文件夹
