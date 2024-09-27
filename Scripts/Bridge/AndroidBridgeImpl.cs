@@ -20,7 +20,7 @@ namespace Bridge.AliApi
 	internal class AndroidBridgeImpl : IBridge
 	{
 		private const string UnityPlayerClassName = "com.unity3d.player.UnityPlayer";
-		private const string ManagerClassName = "com.bridge.alipay.AliApiManager";
+		private const string ManagerClassName = "com.bridge.aliapi.AliApiManager";
 		private static AndroidJavaObject api;
 		private static AndroidJavaObject currentActivity;
 
