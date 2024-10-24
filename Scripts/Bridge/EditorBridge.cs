@@ -8,7 +8,7 @@
 // Create Time:		2023/12/04 17:33:45
 // *******************************************
 
-#if (UNITY_IOS || UNITY_ANDROID) && UNITY_EDITOR
+#if UNITY_EDITOR
 namespace Bridge.AliApi
 {
 	using Common;
