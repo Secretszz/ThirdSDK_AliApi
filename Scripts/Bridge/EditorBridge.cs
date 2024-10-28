@@ -8,7 +8,6 @@
 // Create Time:		2023/12/04 17:33:45
 // *******************************************
 
-#if UNITY_EDITOR
 namespace Bridge.AliApi
 {
 	using Common;
@@ -41,4 +40,3 @@ namespace Bridge.AliApi
 		}
 	}
 }
-#endif
