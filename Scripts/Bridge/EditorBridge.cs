@@ -24,11 +24,6 @@ namespace Bridge.AliApi
 		{
 		}
 
-		bool IBridge.IsAliPayAppInstalled()
-		{
-			return false;
-		}
-
 		void IBridge.OpenPay(string orderInfo, IBridgeListener listener)
 		{
 			listener?.OnSuccess("");

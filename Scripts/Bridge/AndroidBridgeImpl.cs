@@ -38,15 +38,6 @@ namespace Bridge.AliApi
 		}
 
 		/// <summary>
-		/// 是否安装了微信客户端
-		/// </summary>
-		/// <returns></returns>
-		bool IBridge.IsAliPayAppInstalled()
-		{
-			return api != null && api.Call<bool>("isAliPayAppInstalled");
-		}
-
-		/// <summary>
 		/// 拉起支付
 		/// </summary>
 		/// <param name="orderInfo">订单信息</param>

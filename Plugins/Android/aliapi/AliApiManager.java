@@ -1,6 +1,7 @@
 package com.bridge.aliapi;
 
 import android.app.Activity;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.alipay.sdk.app.AuthTask;
@@ -14,6 +15,35 @@ public class AliApiManager {
     public static AliApiManager getInstance(){
         return Holder.INSTANCE;
     }
+
+    /**
+     * 成功
+     */
+    private final static String RESULT_STATUS_SUCCESS = "9000";
+    /**
+     * 正在处理中
+     */
+    private final static String RESULT_STATUS_PROCESSING = "8000";
+    /**
+     * 失败
+     */
+    private final static String RESULT_STATUS_FAILED = "4000";
+    /**
+     * 重复请求
+     */
+    private final static String RESULT_STATUS_REPEAT_REQUEST = "5000";
+    /**
+     * 用户中途取消
+     */
+    private final static String RESULT_STATUS_USER_CANCEL = "6001";
+    /**
+     * 网络连接出错
+     */
+    private final static String RESULT_STATUS_NETWORK_ERROR = "6002";
+    /**
+     * 结果未知
+     */
+    private final static String RESULT_STATUS_UNKNOWN = "6004";
 
     public void initAliApiManager(Activity activity){
 
@@ -82,12 +112,14 @@ public class AliApiManager {
             String result = payResult.getResult();
             String memo = payResult.getMemo();
 
-            if (resultStatus.equals("9000") || resultStatus.equals("8000") || resultStatus.equals("6004")) {
+            if (TextUtils.equals(resultStatus, RESULT_STATUS_SUCCESS)
+                    || TextUtils.equals(resultStatus, RESULT_STATUS_PROCESSING)
+                    || TextUtils.equals(resultStatus, RESULT_STATUS_UNKNOWN)) {
                 payListener.onSuccess(result);
-            } else if (resultStatus.equals("6001")) {
+            } else if (TextUtils.equals(resultStatus, RESULT_STATUS_USER_CANCEL)) {
                 payListener.onCancel();
             } else {
-                payListener.onError(-1, result);
+                payListener.onError(Integer.parseInt(resultStatus), result);
             }
             Log.d(TAG, memo);
         }
@@ -127,6 +159,22 @@ public class AliApiManager {
 
             AuthResult authResult = new AuthResult(rawResult, true);
             String resultStatus = authResult.getResultStatus();
+            String result = authResult.getResult();
+            String memo = authResult.getMemo();
+
+            if (TextUtils.equals(resultStatus, RESULT_STATUS_SUCCESS)) {
+                String resultCode = authResult.getResultCode();
+                if (TextUtils.equals(resultCode, "200")){
+                    authListener.onSuccess(result);
+                } else {
+                    authListener.onError(Integer.parseInt(resultCode), result);
+                }
+            } else if (TextUtils.equals(resultStatus, RESULT_STATUS_USER_CANCEL)) {
+                authListener.onCancel();
+            } else {
+                authListener.onError(Integer.parseInt(resultStatus), result);
+            }
+            Log.d(TAG, memo);
         }
     }
 

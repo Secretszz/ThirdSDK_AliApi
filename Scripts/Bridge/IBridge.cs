@@ -24,12 +24,6 @@ namespace Bridge.AliApi
 		void InitBridge();
 
 		/// <summary>
-		/// 是否安装了支付宝客户端
-		/// </summary>
-		/// <returns></returns>
-		bool IsAliPayAppInstalled();
-
-		/// <summary>
 		/// 拉起支付
 		/// </summary>
 		/// <param name="orderInfo">订单信息</param>

@@ -50,15 +50,6 @@ namespace Bridge.AliApi
 		}
 
 		/// <summary>
-		/// 是否下载了微信
-		/// </summary>
-		/// <returns></returns>
-		public static bool IsAliPayAppInstalled()
-		{
-			return bridgeImpl.IsAliPayAppInstalled();
-		}
-
-		/// <summary>
 		/// 拉起支付
 		/// </summary>
 		/// <param name="orderInfo">订单信息</param>

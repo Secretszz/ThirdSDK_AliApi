@@ -29,15 +29,6 @@ namespace Bridge.AliApi
 		}
 
 		/// <summary>
-		/// 是否安装了微信客户端
-		/// </summary>
-		/// <returns></returns>
-		bool IBridge.IsAliPayAppInstalled()
-		{
-			return ali_isAliPayAppInstalled();
-		}
-
-		/// <summary>
 		/// 拉起支付
 		/// </summary>
 		/// <param name="orderInfo">订单信息</param>
@@ -64,13 +55,6 @@ namespace Bridge.AliApi
 		/// </summary>
 		[DllImport("__Internal")]
 		private static extern void ali_init();
-
-		/// <summary>
-		/// 是否下载了微信客户端
-		/// </summary>
-		/// <returns></returns>
-		[DllImport("__Internal")]
-		private static extern bool ali_isAliPayAppInstalled();
 
 		/// <summary>
 		/// 支付
